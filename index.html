@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>IndianOil Bills</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+  <div id="controls">
+    <input type="file" id="excelInput" accept=".xlsx, .xls" />
+    <button id="savePdfBtn">Save All Bills as PDF</button>
+  </div>
+
+  <div id="billsContainer" class="grid-container"></div>
+
+  <template id="billTemplate">
+    <div class="bill">
+
+      <!-- OPTION 1: External logo -->
+      <img src="logo.png" alt="IndianOil Logo" class="logo" />
+
+      <!-- OPTION 2: Base64 embedded logo -->
+      <!-- <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABu0lEQVR4Xu2ZsY3CQBBF39ZSQAOwQAFIAJSAJUBJqABaAE0gApQApQAlYAJWAGkk/ra8ktvd2Z3Mtd0ZnM/XTu9mBCKIoAgj3GHRVewA0ISlscQD5J8wDxvZ0pwt5wDwLlnvRvmAKMjW3IDUOL1rWcFeYbJq2K+VEMtU0BmwAjU9ZphSmAqqE2xVkFkCs3KpBgShImHoEBmbAX9AjHXwH20RCNKFSOxKj9ZILaZUv4FX0qUTkKhxzVNXLbOThl0FGiPiXqiyhAZiBSOZy+shhG1Yeh7U24BJkQqKmj0bc5wqubnj3KIUj+WjrsitQAi/hAnMhbIbkMn9qIXUAn3OwHcGEPcyH3aYwK+/3A5dXt6yKmIuQJtI/mK9AWsZMBi1uEnOgAAAABJRU5ErkJggg==" alt="IndianOil Logo" class="logo" /> -->
+
+      <div class="section">
+        <p><span class="label">SITE</span> : <span class="value site"></span></p>
+        <p><span class="label">ADDRESS</span> : <span class="value address"></span></p>
+        <p><span class="label">TEL NO</span> : <span class="value tel"></span></p>
+      </div>
+      <hr />
+      <div class="section">
+        <p><span class="label">DATE</span> : <span class="value date"></span></p>
+        <p><span class="label">VEHICLE</span> : <span class="value vehicle"></span></p>
+        <p><span class="label">BSN</span> : <span class="value bsn"></span></p>
+        <p><span class="label">HOSE ID</span> : <span class="value hose"></span></p>
+        <p><span class="label">PRODUCT</span> : <span class="value">PETROL</span></p>
+        <p><span class="label">DENSITY</span> : <span class="value density"></span></p>
+        <p><span class="label">RATE</span> : <span class="value rate"></span></p>
+        <p><span class="label">VOLUME</span> : <span class="value volume"></span></p>
+        <p><span class="label">AMOUNT</span> : <span class="value amount"></span></p>
+        <p><span class="label">PRESET</span> : <span class="value">NOT ENTERED</span></p>
+      </div>
+      <hr />
+      <div class="thanks">THANKS COME AGAIN.</div>
+    </div>
+  </template>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

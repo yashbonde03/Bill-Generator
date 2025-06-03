@@ -1,4 +1,5 @@
 <script>
+    // Convert Excel serial date to "YYYY-MM-DD HH:MM"
     function excelDateToJSDate(serial) {
         const utc_days = Math.floor(serial - 25569);
         const utc_value = utc_days * 86400;
@@ -7,9 +8,8 @@
         const fractional_day = serial - Math.floor(serial) + 0.0000001;
         let totalSeconds = Math.floor(86400 * fractional_day);
 
-        const seconds = totalSeconds % 60;
-        const minutes = Math.floor((totalSeconds % 3600) / 60);
         const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
 
         const dateStr = `${date_info.getFullYear()}-${(date_info.getMonth() + 1).toString().padStart(2, '0')}-${date_info.getDate().toString().padStart(2, '0')}`;
         const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
@@ -38,11 +38,13 @@
                 clone.querySelector('.address').textContent = row["ADDRESS"] || '';
                 clone.querySelector('.tel').textContent = row["TEL NO"] || '';
 
-                // 🛠 Fix DATE conversion
+                // ✅ Handle both manual date string and serial number
                 const rawDate = row["DATE"];
-                let formattedDate = rawDate;
+                let formattedDate = '';
                 if (typeof rawDate === 'number') {
                     formattedDate = excelDateToJSDate(rawDate);
+                } else {
+                    formattedDate = rawDate || '';
                 }
                 clone.querySelector('.date').textContent = formattedDate;
 

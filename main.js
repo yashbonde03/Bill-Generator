@@ -1,5 +1,4 @@
 <script>
-    // Converts Excel serial date (e.g., 45761.875) to readable format
     function excelDateToJSDate(serial) {
         const utc_days = Math.floor(serial - 25569);
         const utc_value = utc_days * 86400;
@@ -9,12 +8,12 @@
         let totalSeconds = Math.floor(86400 * fractional_day);
 
         const seconds = totalSeconds % 60;
-        totalSeconds -= seconds;
-
-        const hours = Math.floor(totalSeconds / (60 * 60));
         const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const hours = Math.floor(totalSeconds / 3600);
 
-        return `${date_info.getFullYear()}-${(date_info.getMonth()+1).toString().padStart(2, '0')}-${date_info.getDate().toString().padStart(2, '0')} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        const dateStr = `${date_info.getFullYear()}-${(date_info.getMonth() + 1).toString().padStart(2, '0')}-${date_info.getDate().toString().padStart(2, '0')}`;
+        const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+        return `${dateStr} ${timeStr}`;
     }
 
     document.getElementById('excelInput').addEventListener('change', function (e) {
@@ -34,13 +33,17 @@
 
             data.forEach(row => {
                 const clone = template.content.cloneNode(true);
+
                 clone.querySelector('.site').textContent = row["SITE"] || '';
                 clone.querySelector('.address').textContent = row["ADDRESS"] || '';
                 clone.querySelector('.tel').textContent = row["TEL NO"] || '';
 
-                // Proper date conversion
-                let rawDate = row["DATE"];
-                let formattedDate = typeof rawDate === 'number' ? excelDateToJSDate(rawDate) : (rawDate || '');
+                // 🛠 Fix DATE conversion
+                const rawDate = row["DATE"];
+                let formattedDate = rawDate;
+                if (typeof rawDate === 'number') {
+                    formattedDate = excelDateToJSDate(rawDate);
+                }
                 clone.querySelector('.date').textContent = formattedDate;
 
                 clone.querySelector('.vehicle').textContent = row["VEHICLE"] || '';

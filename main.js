@@ -18,7 +18,8 @@ document.getElementById('excelInput').addEventListener('change', function (e) {
       clone.querySelector('.site').textContent = row["SITE"];
       clone.querySelector('.address').textContent = row["ADDRESS"];
       clone.querySelector('.tel').textContent = row["TEL NO"];
-      clone.querySelector('.date').textContent = row["DATE"];
+      // clone.querySelector('.date').textContent = row["DATE"];
+      clone.querySelector('.date').textContent = `${row["DATE"]} ${row["TIME"]}`;
       clone.querySelector('.vehicle').textContent = row["VEHICLE"];
       clone.querySelector('.bsn').textContent = row["BSN"];
       clone.querySelector('.hose').textContent = row["HOSE ID"];

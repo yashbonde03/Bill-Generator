@@ -1,3 +1,36 @@
+function excelDateToJSDate(input) {
+  // Case 1: If it's a number (Excel serial)
+  if (typeof input === 'number') {
+    const utc_days = Math.floor(input - 25569);
+    const utc_value = utc_days * 86400;
+    const date_info = new Date(utc_value * 1000);
+
+    const fractional_day = input % 1;
+    const totalSeconds = Math.round(fractional_day * 86400);
+    const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+    const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+
+    const dd = String(date_info.getDate()).padStart(2, '0');
+    const mm = String(date_info.getMonth() + 1).padStart(2, '0');
+    const yyyy = date_info.getFullYear();
+
+    return `${dd}-${mm}-${yyyy} ${hours}:${minutes}`;
+  }
+
+  // Case 2: If it's a string like "29/01/25 16:45"
+  if (typeof input === 'string') {
+    const [datePart, timePart] = input.split(' ');
+    const [day, month, year] = datePart.split('/');
+
+    const fullYear = Number(year) < 100 ? `20${year}` : year;
+    return `${day.padStart(2, '0')}-${month.padStart(2, '0')}-${fullYear} ${timePart}`;
+  }
+
+  return 'Invalid Date';
+}
+
+
+
 document.getElementById('excelInput').addEventListener('change', function (e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -18,8 +51,11 @@ document.getElementById('excelInput').addEventListener('change', function (e) {
       clone.querySelector('.site').textContent = row["SITE"];
       clone.querySelector('.address').textContent = row["ADDRESS"];
       clone.querySelector('.tel').textContent = row["TEL NO"];
-      // clone.querySelector('.date').textContent = row["DATE"];
-      clone.querySelector('.date').textContent = `${row["DATE"]} ${row["TIME"]}`;
+    //   clone.querySelector('.date').textContent = row["DATE"];
+    clone.querySelector('.date').textContent = excelDateToJSDate(row["DATE"]);
+
+//     const serial = row["DATE"];
+// clone.querySelector('.date').textContent = excelDateToJSDate(serial);
       clone.querySelector('.vehicle').textContent = row["VEHICLE"];
       clone.querySelector('.bsn').textContent = row["BSN"];
       clone.querySelector('.hose').textContent = row["HOSE ID"];

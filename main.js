@@ -24,7 +24,7 @@ function excelDateToJSDate(input) {
     const [day, month, year] = datePart.split('/');
 
     const fullYear = Number(year) < 100 ? `20${year}` : year;
-    return `${day.padStart(2, '0')}-${month.padStart(2, '0')}-${fullYear} ${timePart}`;
+    return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${fullYear} ${timePart}`;
   }
 
   return 'Invalid Date';

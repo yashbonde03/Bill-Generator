@@ -14,7 +14,8 @@ function excelDateToJSDate(input) {
     const mm = String(date_info.getMonth() + 1).padStart(2, '0');
     const yyyy = date_info.getFullYear();
 
-    return `${dd}-${mm}-${yyyy} ${hours}:${minutes}`;
+    // return `${dd}-${mm}-${yyyy} ${hours}:${minutes}`;
+     return `${dd}/${mm}/${yyyy} ${hours}:${minutes}`;
   }
 
   // Case 2: If it's a string like "29/01/25 16:45"

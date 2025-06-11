@@ -1,5 +1,5 @@
 function excelDateToJSDate(input) {
-  // Case 1: If it's a number (Excel serial)
+  // Case 1: Excel serial number
   if (typeof input === 'number') {
     const utc_days = Math.floor(input - 25569);
     const utc_value = utc_days * 86400;
@@ -12,25 +12,18 @@ function excelDateToJSDate(input) {
 
     const dd = String(date_info.getDate()).padStart(2, '0');
     const mm = String(date_info.getMonth() + 1).padStart(2, '0');
-    const yyyy = date_info.getFullYear();
+    const yy = String(date_info.getFullYear()).slice(-2); // Last 2 digits of year
 
-    // return `${dd}-${mm}-${yyyy} ${hours}:${minutes}`;
-     return `${dd}/${mm}/${yyyy} ${hours}:${minutes}`;
+    return `${dd}/${mm}/${yy} ${hours}:${minutes}`;
   }
 
-  // Case 2: If it's a string like "29/01/25 16:45"
+  // Case 2: String input like "29/01/25 16:45"
   if (typeof input === 'string') {
-    const [datePart, timePart] = input.split(' ');
-    const [day, month, year] = datePart.split('/');
-
-    const fullYear = Number(year) < 100 ? `20${year}` : year;
-    return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${fullYear} ${timePart}`;
+    return input.trim(); // Assume already in correct format
   }
 
   return 'Invalid Date';
 }
-
-
 
 document.getElementById('excelInput').addEventListener('change', function (e) {
   const file = e.target.files[0];
